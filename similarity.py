@@ -1,6 +1,9 @@
-"""This module is thought to collect all the algorithms we need for our equivalent words
+
+"""
+This module is thought to collect all the algorithms we need for our equivalent words
 problems (simple and general)
 """
+
 
 
 def edit_distance(word1, word2):
