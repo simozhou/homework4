@@ -1,5 +1,5 @@
 
-#Equivalent words
+# Equivalent words
 >The algorithm(s) works as follows:
 1. Takes two words in input, one will be the starting one, the other the final one.
 2. Rolls over the graph built on the distances of all the elemnts in the [dictionary](https://github.com/dwyl/english-words/blob/master/words.txt), checking if it's possible to actually transform the two words.
