@@ -35,9 +35,9 @@ def load_words(filename="words.txt"):
         return str(e)
 
 
-def subgraph_length(graph=None, length=None):
+def subgraph_length(graph=G, length=None):
     """Purpose: equivalent words; returns a subgraph of words with equal length from the general dictGraph"""
-    return nx.subgraph(G, dictionary_len[length])
+    return nx.subgraph(graph, dictionary_len[length])
 
 
 def graph_build(options=None):
