@@ -1,11 +1,9 @@
 from collections import defaultdict, deque
 from itertools import chain
 
-
 def shortened_words(word):
     for i in range(len(word)):
         yield word[:i] + word[i + 1:], i
-
 
 def prepare_graph(d):
     g = defaultdict(list)
@@ -20,7 +18,7 @@ def walk_graph(g, d, start, end):
     seen = {start: None}
     while todo:
         word = todo.popleft()
-        if word == end:  # end is reachable
+        if word == end: # end is reachable
             break
 
         same_length = chain(*(g[short] for short in shortened_words(word)))
@@ -30,16 +28,15 @@ def walk_graph(g, d, start, end):
             if next_word not in seen:
                 seen[next_word] = word
                 todo.append(next_word)
-    else:  # no break, i.e. not reachable
-        return None  # not reachable
+    else: # no break, i.e. not reachable
+        return None # not reachable
 
     path = [end]
     while path[-1] != start:
         path.append(seen[path[-1]])
     return path[::-1]
 
-
-dictionary = open('words_alpha.txt', "r").read().split()  # list words
+dictionary = open('words_alpha.csv', "r").read().split() # list words
 graph = prepare_graph(dictionary)
-print(" -> ".join(walk_graph(graph, dictionary, "were", "tail")))
+print(" -> ".join(walk_graph(graph, dictionary, "head", "tail")))
 print(" -> ".join(walk_graph(graph, dictionary, "head", "tea ")))
