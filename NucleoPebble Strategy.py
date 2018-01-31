@@ -15,37 +15,55 @@ pos=[i for i in it.combinations_with_replacement([0,1,2,3,4], 3)] #generate some
 #CASE 1= The sum of all the heaps is multiple of three
 #       -Winning positions= The exeptions conteined in the variable 'exept'
 #       -Losing positions= if the larger two heaps are >= 5 (highlighted in the graph by a red surface); or the cases not included in the exeptions
-def case1(pos):
+def case1(pos,Player=False): #Player is the player position (False means that I'm not looking for it)
     exept=[(0,0,1), (0,0,2), (0,1,1), (0,1,2), (0,1,3), (0,2,2), (0,2,3), (1,1,1), (1,1,2), (1,1,3), (1,2,2), (1,2,3), (1,2,4), (1,3,3), (2,2,2), (2,2,3), (2,2,4), (2,3,3)]
-    Graph(pos,exept,U_limit=True)
-
+    if Player and (Player not in exept) and (Player not in pos): #if the player position is not among the exeptions... 
+        pos.append(Player) #...it is a losing pos.
+    Graph(exept,pos, U_limit=True, player=Player)
     plt.title('Sum == 3n')
 
 #CASE 2= The sum of all the heaps is 1 more the multiple of three
 #       -Winning positions= All the positions, excluding the two exeptions
 #       -Losing positions= The case 1/1/1/3n+1 and the default case (0/0/0/3n+1)
-def case2(pos):
+def case2(pos, Player=False): 
     exept = [(0, 0, 0), (1, 1, 1)]
-    Graph(pos,exept,True)
+    if Player and (Player not in exept) and (Player not in pos): #if the playerp. is not among the exeptions..
+        pos.append(Player) #...it is a winning pos.
+    Graph(pos,exept,L_plane=True, player=Player)
     plt.title('Sum == 3n+1')
 
 #CASE 3= The sum is 2 more the multiple of three
 #       -Winning positions= All the positions, excluding the exeptions
 #       -Losing positions= The exeptions
-def case3(pos):
+def case3(pos,Player=False):
     exept=[(0,1,2), (0,2,2), (1,2,3), (1,2,2), (2,2,2), (2,2,3), (0,0,0)]
-    Graph(pos,exept)
-
+    if Player and (Player not in exept) and (Player not in pos):
+        pos.append(Player) #winning pos. if the player is not among the exeptions
+    Graph(pos,exept, player=Player)
     plt.title('Sum == 3n+2')
 
 
 #Function required to show the position in 3D
-def Graph(Win, Lose, L_plane=False, U_limit=False):
+#Win= winning pos., Lose=losing pos., player= player pos.
+def Graph(Win, Lose, L_plane=False, U_limit=False, player=False):
     #Collect all the winning positions
     Win = [Win[w] for w in range(len(Win)) if (pos[w] not in Lose)]
 
     fig = plt.figure()#Create the plot
     ax = fig.add_subplot(111, projection='3d')
+    
+    if player: #If I'm looking for the player position, 
+        if player in Win:#check if it is a winning or loosing pos.
+            Win.remove(player)
+            mark='o'
+            print('----> You Are in a Winning position <----')
+        elif player in Lose:
+            Lose.remove(player)
+            mark='^'
+            print('----> You are in a Losing position <----')
+        #plot the player position
+        P = ax.scatter(player[0], player[1], player[2], s=50, marker=mark, c='black')
+
 
     #insertion of all the Winning positions in the scatter plot 3D
     Xax = [Win[x][0] for x in range(len(Win))]
@@ -82,14 +100,22 @@ def Graph(Win, Lose, L_plane=False, U_limit=False):
     ax.set_xlabel('Heap 1')
     ax.set_ylabel('Heap 2')
     ax.set_zlabel('Heap 3')
-    ax.legend((L,W), ('Losing positions', 'Winning positions'))
+    if player: #Add a legend. If the player position is included in the plot,add it to the legend
+        ax.legend((L, W,P), ('Losing positions', 'Winning positions', 'Player position'))
+    else:
+        ax.legend((L,W), ('Losing positions', 'Winning positions'))
+
 
 #Questions to interact with the player
 def Questions():
+    answ=''
     answ_l=[False,False]
-    print('Please, typt only ONE of the following answers:','\t-"ALL" if you want to see all the strategies',
-          '\t-"ONLY" if you want to see your specific situation', sep='\n')
-    answ=input('-->').strip()
+    #Ask what the uses wants to check
+    print('Please, type only ONE of the following answers:','\t-"ALL" if you want to see all the strategies',
+          '\t-"ONLY" if you want to see your specific position','\t-"STOP" if you want to quit the program', sep='\n')
+    while( answ.upper() not in ['ALL', "ONLY", "STOP"]):
+        answ=input('-->').strip()
+        
     if answ.upper()=='ALL':
         answ_l[0]=not(answ_l[0])
     elif answ.upper()=='ONLY':
@@ -102,16 +128,21 @@ def Questions():
         case3(pos)
 
     elif answ_l[1]: #otherwise, ask the total size of the heaps to infer the specific case
-        Tot_Sum=''
-        while(not (isinstance(Tot_Sum, int))):
-            Tot_Sum=int(input('Please, insert the sum of all the four heaps: ').strip())
-
-        if (Tot_Sum%3==0):
-            case1(pos)
-        elif (Tot_Sum%3==0):
-            case2(pos)
+        Heaps=[] #list to collect all the piles
+        print('Please, insert the sizes:\n')
+        for i in [' A: ','T: ', 'G: ', 'C: ']:
+            value = ''
+            while(not (value.isdigit())): #Ask untill a valid input is inserted
+                value=input(i).strip()
+            Heaps.append(int(value))
+            
+        hp=tuple(sorted(Heaps)[:3]) #select only the three smallest values
+        if (sum(Heaps)%3==0): #if the total size is 3n
+            case1(pos, hp)
+        elif (sum(Heaps)%3==1):
+            case2(pos,hp) #total size=3n+1
         else:
-            case3(pos)
+            case3(pos,hp) #total size 3n+2
     plt.show()
 
 Questions()
