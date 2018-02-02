@@ -19,7 +19,8 @@ def case1(pos,Player=False): #Player is the player position (False means that I'
     exept=[(0,0,1), (0,0,2), (0,1,1), (0,1,2), (0,1,3), (0,2,2), (0,2,3), (1,1,1), (1,1,2), (1,1,3), (1,2,2), (1,2,3), (1,2,4), (1,3,3), (2,2,2), (2,2,3), (2,2,4), (2,3,3)]
     if Player and (Player not in exept) and (Player not in pos): #if the player position is not among the exeptions... 
         pos.append(Player) #...it is a losing pos.
-    Graph(exept,pos, U_limit=True, player=Player)
+    Lpos = [pos[w] for w in range(len(pos)) if (pos[w] not in exept)]    
+    Graph(exept,Lpos, U_limit=True, player=Player)
     plt.title('Sum == 3n')
 
 #CASE 2= The sum of all the heaps is 1 more the multiple of three
@@ -29,7 +30,8 @@ def case2(pos, Player=False):
     exept = [(0, 0, 0), (1, 1, 1)]
     if Player and (Player not in exept) and (Player not in pos): #if the playerp. is not among the exeptions..
         pos.append(Player) #...it is a winning pos.
-    Graph(pos,exept,L_plane=True, player=Player)
+    Wpos = [pos[w] for w in range(len(pos)) if (pos[w] not in exept)]
+    Graph(Wpos,exept,L_plane=True, player=Player)
     plt.title('Sum == 3n+1')
 
 #CASE 3= The sum is 2 more the multiple of three
@@ -39,15 +41,14 @@ def case3(pos,Player=False):
     exept=[(0,1,2), (0,2,2), (1,2,3), (1,2,2), (2,2,2), (2,2,3), (0,0,0)]
     if Player and (Player not in exept) and (Player not in pos):
         pos.append(Player) #winning pos. if the player is not among the exeptions
-    Graph(pos,exept, player=Player)
+    Wpos = [pos[w] for w in range(len(pos)) if (pos[w] not in exept)] #Collect the winning positions
+    Graph(Wpos,exept, player=Player)
     plt.title('Sum == 3n+2')
 
 
 #Function required to show the position in 3D
 #Win= winning pos., Lose=losing pos., player= player pos.
 def Graph(Win, Lose, L_plane=False, U_limit=False, player=False):
-    #Collect all the winning positions
-    Win = [Win[w] for w in range(len(Win)) if (pos[w] not in Lose)]
 
     fig = plt.figure()#Create the plot
     ax = fig.add_subplot(111, projection='3d')
@@ -126,7 +127,8 @@ def Questions():
         case1(pos)
         case2(pos)
         case3(pos)
-
+        plt.show()
+        
     elif answ_l[1]: #otherwise, ask the total size of the heaps to infer the specific case
         Heaps=[] #list to collect all the piles
         print('Please, insert the sizes:\n')
@@ -143,6 +145,7 @@ def Questions():
             case2(pos,hp) #total size=3n+1
         else:
             case3(pos,hp) #total size 3n+2
-    plt.show()
+        return Heaps
+        plt.show()
 
 Questions()
