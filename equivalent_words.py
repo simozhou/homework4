@@ -12,15 +12,15 @@ def grapher(wordFile):
         word = line[:-1]
         for bucket in word_cooker(word):
             if bucket in d:
-                d[bucket].append(word)
+                if word in d[bucket]:
+                    d[bucket].append(word)
             else:
                 d[bucket] = [word]
     # add vertices and edges for words in the same bucket
     for bucket in d.keys():
         for word1 in d[bucket]:
             for word2 in d[bucket]:
-                if word1 != word2:
-                    g.add_edge(word1, word2)
+                g.add_edge(word1, word2)
     return g
 
 
