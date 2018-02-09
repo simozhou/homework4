@@ -12,14 +12,12 @@ def grapher(wordFile):
     The basic concept is "bucketing": dividing words with respect to some pseudo-words (have a placeholder instead
     of a letter each time). after this process is done, we have buckets of words which needs to get connected within the
     graph and by takiing the combination of the values in each bucket we have our graph cooked. This bad boy of a
-    function allow us to solve the problem of the graph building in a quasi-linear time complexity ( O((2s+1)^2*n*b^2)
-    s = avg word len, n = dict size, b = avg size of buckets, both b and s are relatively small with respect to n,
-    so they can be considered as constant and cut off).
+    function allow us to solve the problem of the graph building in a quasi-linear time complexity).
     """
     dictionary = {}
     g = nx.Graph()
     wfile = open(wordFile, 'r')
-    # create buckets of words that differ by one letter
+    # generate buckets of words that differ only by one letter (example: _head, _ead, h_ead, etc.)
     for line in wfile:
         word = line[:-1]
         for bucket in word_cooker(word):
