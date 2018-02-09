@@ -14,19 +14,16 @@ def grapher(wordFile):
     graph and by takiing the combination of the values in each bucket we have our graph cooked. This bad boy of a
     function allow us to solve the problem of the graph building in a quasi-linear time complexity).
     """
-    dictionary = {}
+    dictionary = defaultdict(list)
     g = nx.Graph()
     wfile = open(wordFile, 'r')
     # generate buckets of words that differ only by one letter (example: _head, _ead, h_ead, etc.)
     for line in wfile:
         word = line[:-1]
         for bucket in word_cooker(word):
-            if bucket in dictionary:
-                if word not in dictionary[bucket]:
-                    dictionary[bucket].append(word)
-            else:
-                dictionary[bucket] = [word]
-    # add vertices and edges for words in the same bucket
+            if word not in dictionary[bucket]:
+                dictionary[bucket].append(word)
+    # add vertices and edges within each bucket
     for bucket in dictionary.keys():
         g.add_edges_from(combinations(dictionary[bucket], 2))
     return g
