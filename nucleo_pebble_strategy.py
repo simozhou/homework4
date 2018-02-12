@@ -148,4 +148,4 @@ def Questions():
         return Heaps
         plt.show()
 
-Questions()
+# Questions()
