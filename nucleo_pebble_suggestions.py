@@ -1,4 +1,4 @@
-import NucleoPebble_Strategy as st
+import nucleo_pebble_strategy as st
 import numpy as np
 
 def Insert():
