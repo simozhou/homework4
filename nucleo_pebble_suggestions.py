@@ -12,21 +12,17 @@ def play_suggested(piles):
     piles = np.array(piles_num)
     predicted = outcome(piles)
     delta_piles = piles - predicted
-    output_piles = [0,0,0,0]
-    for index, hold in enumerate(delta_piles):
-        if index:
-            output_piles[index] += 1
     # if one elem is taken
-    if sum(output_piles) is 1:
-        return "try to remove 1 pile from %s" % piles_name[output_piles.index(1)]
+    if sum(delta_piles) == 1.0:
+        return "try to remove 1 pile from %s" % piles_name[list(delta_piles).index(1.0)]
     # if two elements are taken
-    elif sum(output_piles) is 2:
-        # check if are taken from the same pile or not
-        if output_piles.count(1) != 0:
-            piles_of_interest = tuple(piles_name[i] for i in range(len(output_piles)) if output_piles[i] == 1)
+    elif sum(delta_piles) == 2.0:
+        # check if non zero elems are more than 1 (elems taken from 2 different piles)
+        if np.count_nonzero(delta_piles) != 1.0:
+            piles_of_interest = tuple(piles_name[i] for i in range(len(delta_piles)) if list(delta_piles)[i] == 1.0)
             return "try to remove 2 piles from %s and %s" % piles_of_interest
         else:
-            return "try to remove 2 piles from %s" % piles_name[output_piles.index(2)]
+            return "try to remove 2 piles from %s" % piles_name[list(delta_piles).index(2.0)]
 
 
 def insertion():
@@ -102,5 +98,5 @@ def outcome(x):
 
 
 if __name__ == "__main__":
-    Pos = insertion()
-    print('Suggested move: ', outcome(Pos))
+    piles = dict(A=1,T=2,C=2,G=1)
+    print(play_suggested(piles))

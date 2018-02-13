@@ -1,4 +1,3 @@
-import numpy as np
 import nucleo_pebble_suggestions as nps
 import os
 
@@ -45,7 +44,7 @@ def change(player):  # change the turn from the user to the computer, or vicever
 
 
 def playT():
-    nucl1, nucl2 = 0, 0  # nucleotides to remove
+    nucl1, nucl2 = 'x', 'x'  # nucleotides to remove
     sortp = sorted(p, key=p.get)  # sort the keys (nucleotides) according to their values
 
     if (player == 2):  # Computer's turn
@@ -57,37 +56,44 @@ def playT():
         new = nps.outcome(sorted(p.values()))
         SetPile(sortp, new)  # update the situation
 
- else: #User's turn
-        print('\n'+'+'*20)
+    else:  # User's turn
+        print('\n' + '+' * 20)
         show()
         print("\n**** YOU  ****\n")
-        print('Choose the pile from which you want to remove the element')
-        while((nucl1 not in p.keys())): #ask which nucleotide he/she wants to remove. it must be present among the keys
-            nucl1= input('first element from--->').strip().upper()
+        print('Choose the pile from which you want to remove the element or hit h to get a hint')
+        while nucl1 not in p.keys() or nucl1 != 'h':  # ask which nucleotide he/she wants to remove. it must be present among the keys
+            nucl1 = input('first element from--->').strip().upper()
+            if nucl1 == 'H':
+                print(nps.play_suggested(p))
+                nucl1 = 'x'
             if nucl1 in p:
                 if p[nucl1] == 0:
                     print('This pile is empty! Try another one.')
                     nucl1 = 'x'
-        p[nucl1] -= 1 #remove 1 element from that pile
+                else:
+                    break
+        p[nucl1] -= 1  # remove 1 element from that pile
 
-        while ((nucl2 not in p.keys()) and nucl2!=''): #ask if he/she wants to remove a second nucleotide.
+        while nucl2 not in p.keys() and nucl2 != '':  # ask if he/she wants to remove a second nucleotide.
             nucl2 = input('second element from (**otherwise just skip**)--->').strip().upper()
             if nucl2 in p:
                 if p[nucl2] == 0:
                     print('This pile is empty! Try another one.')
                     nucl2 = 'x'
+                else:
+                    break
         if nucl2:
-            p[nucl2] -= 1 #remove the second element, if required
+            p[nucl2] -= 1  # remove the second element, if required
 
 
 if __name__ == "__main__":
-    while (CheckLose(p.values()) < 3):  # repeat the game untill only 0 or 1 piles are non-negative
+    while CheckLose(p.values()) < 3:  # repeat the game untill only 0 or 1 piles are non-negative
         playT()  # play the turn
         player = change(player)  # change player
         os.system("cls")  # clean the screen
     show()
 
-    if (player == 2):
+    if player == 2:
         print('\t**** Congratulations!!! YOU ARE THE WINNER!! ****',
               '\t         \(*0*)/ \t \(^-^)/ \t \(^0^)/', sep='\n')
     else:
