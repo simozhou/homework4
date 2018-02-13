@@ -148,4 +148,5 @@ def Questions():
         return Heaps
         plt.show()
 
-# Questions()
+if __name__  == '__main__':
+    Questions()
