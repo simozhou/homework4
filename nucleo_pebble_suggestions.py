@@ -4,9 +4,13 @@ import numpy as np
 
 def play_suggested(piles):
     """used in the game, activated y 'h' on the keyboard. returns a string with a suggestion for the user"""
-    piles = np.array()
+    piles = piles.items()
+    piles_num, piles_name = list(), list()
+    for k,v in piles:
+        piles_name.append(k)
+        piles_num.append(v)
+    piles = np.array(piles_num)
     predicted = outcome(piles)
-    pile_names = ('A', 'T', 'C', 'G')
     delta_piles = piles - predicted
     output_piles = [0,0,0,0]
     for index, hold in enumerate(delta_piles):
@@ -14,15 +18,15 @@ def play_suggested(piles):
             output_piles[index] += 1
     # if one elem is taken
     if sum(output_piles) is 1:
-        return "try to remove 1 pile from %s" % pile_names[output_piles.index(1)]
+        return "try to remove 1 pile from %s" % pile_name[output_piles.index(1)]
     # if two elements are taken
     elif sum(output_piles) is 2:
         # check if are taken from the same pile or not
         if output_piles.count(1) != 0:
-            piles_of_interest = tuple(pile_names[i] for i in range(len(output_piles)) if output_piles[i] == 1)
+            piles_of_interest = tuple(pile_name[i] for i in range(len(output_piles)) if output_piles[i] == 1)
             return "try to remove 2 piles from %s and %s" % piles_of_interest
         else:
-            return "try to remove 2 piles from %s" % pile_names[output_piles.index(2)]
+            return "try to remove 2 piles from %s" % pile_name[output_piles.index(2)]
 
 
 def insertion():
