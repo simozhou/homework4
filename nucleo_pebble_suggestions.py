@@ -18,15 +18,15 @@ def play_suggested(piles):
             output_piles[index] += 1
     # if one elem is taken
     if sum(output_piles) is 1:
-        return "try to remove 1 pile from %s" % pile_name[output_piles.index(1)]
+        return "try to remove 1 pile from %s" % piles_name[output_piles.index(1)]
     # if two elements are taken
     elif sum(output_piles) is 2:
         # check if are taken from the same pile or not
         if output_piles.count(1) != 0:
-            piles_of_interest = tuple(pile_name[i] for i in range(len(output_piles)) if output_piles[i] == 1)
+            piles_of_interest = tuple(piles_name[i] for i in range(len(output_piles)) if output_piles[i] == 1)
             return "try to remove 2 piles from %s and %s" % piles_of_interest
         else:
-            return "try to remove 2 piles from %s" % pile_name[output_piles.index(2)]
+            return "try to remove 2 piles from %s" % piles_name[output_piles.index(2)]
 
 
 def insertion():
