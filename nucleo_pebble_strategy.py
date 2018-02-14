@@ -5,7 +5,7 @@ import numpy as np
 
 #This code is going to show the winning and the losing positions.
 #The nucleotide sequence is divided in four heap and the sum of their sizes is important to define 3 cases.
-#Everytime, the player moves from a case to another, due to mathematical reasons. If the player
+#Everytime, the player moves from a case to another, due to mathematical reasons. If the player 
 # does the right moves, it's impossible to change the predicted result.
 #The strategy and plots consider ONLY THE THREE SMALLER HEAPS.
 #A priori, the player LOSES if three of the four heaps are empty.
