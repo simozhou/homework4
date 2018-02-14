@@ -6,7 +6,7 @@ player = 1
 p = {}
 
 print('****insert your nucleotidic-piles: ****')
-# create a dictionary in which the key is nucleotide and the value is the size of the pile
+# create a dictionary in which the key is nucleotide and the value is the size of the pile 
 for i in ['A:', "T:", 'G:', "C:"]:
     value = ''
     while not (value.isdigit()):  # ask until a valid input is given(a non-negative value)
