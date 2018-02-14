@@ -7,7 +7,7 @@ import pickle
 def grapher(wordFile):
     """
     Input: a .txt file containing you dictionary (separator \n)
-    Output: a graph of all the words connected by edit distance value = 1
+    Output: a graph of all the words connected by edit distance value = 1 
 
     The basic concept is "bucketing": dividing words with respect to some pseudo-words (have a placeholder instead
     of a letter each time). after this process is done, we have buckets of words which needs to get connected within the
