@@ -7,7 +7,7 @@ Transforms one English word *v* into another word *w* by going through a series 
 ## Generalized equivalent words
 An algorithm which solves a generalization of the Equivalent Words problem when insertions, deletions, and substitutions are allowed (rather than only substitutions).
 
-## NucleoPebble - the game
+## NucleoPebble - the game 
 Two players play the following game with a nucleotide sequence of
 length n = nA + nT + nC + nG, where nA, nT, nC and nG are the
 number of A,T,C and G in the sequence. At every turn a player
