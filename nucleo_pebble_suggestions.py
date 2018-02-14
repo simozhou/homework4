@@ -3,7 +3,7 @@ import numpy as np
 
 
 def play_suggested(piles):
-    """used in the game, activated y 'h' on the keyboard. returns a string with a suggestion for the user"""
+    """used in the game, activated y 'h' on the keyboard. returns a string with a suggestion for the user""" 
     piles = piles.items()
     piles_num, piles_name = list(), list()
     for k,v in piles:
