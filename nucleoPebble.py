@@ -61,7 +61,7 @@ def playT():
         show()
         print("\n**** YOU  ****\n")
         print('Choose the pile from which you want to remove the element or hit h to get a hint')
-        while nucl1 not in p.keys() or nucl1 != 'h':  # ask which nucleotide he/she wants to remove. it must be present among the keys
+        while nucl1 not in p.keys() or nucl1 != 'H':  # ask which nucleotide he/she wants to remove. it must be present among the keys
             nucl1 = input('first element from--->').strip().upper()
             if nucl1 == 'H':
                 print(nps.play_suggested(p))
