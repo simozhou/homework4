@@ -145,7 +145,6 @@ def Questions():
             case2(pos,hp) #total size=3n+1
         else:
             case3(pos,hp) #total size 3n+2
-        return Heaps
         plt.show()
 
 if __name__  == '__main__':
